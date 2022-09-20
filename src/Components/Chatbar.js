@@ -31,7 +31,7 @@ const Chatbar = () => {
       <hr className="-mx-9" />
       {/* Container to adjust spacing for messages and text bar */}
       <div className="container w-full flex flex-col justify-between">
-        <div className="w-full border-2">
+        <div className="w-full ">
           {/* <div className={`msg max-w-md border border-white text-right ml-auto ${msg.meta.user == user?'ml-auto':'mr-auto'}`}> */}
           <div className='msg max-w-md w-max border rounded my-2 px-2 bg-[#5a606b] border-white text-right ml-auto'>
             <p className="text max-w-max ml-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur neque aliquid </p>
