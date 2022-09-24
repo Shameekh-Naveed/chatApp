@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import RouterContext from "./Contexts/RouterContext";
 
 const Mainbar = () => {
+  const routerState = useContext(RouterContext);
+  const { setUserChat } = routerState;
   const [friends, setFriends] = useState([]);
   // Retrieves all the friends of current user
   const getFriends = async () => {
@@ -16,16 +19,12 @@ const Mainbar = () => {
     });
     const response = await res.json();
     if (response.status) {
-      // setFriends(response.friends);
-      const tempFriendId = [response.friends]; // Make a temporary array to store the friend IDs from response
-      // console.log(friends);
-      // getInfo
-      // setFriends(friends.map((friend)=>{
-
-      // }))
-      tempFriendId.forEach((friendID) => {
-        getInfo({ user_id: friendID });
-      });
+      const tempFriendId = [...response.friends]; // Make a temporary array to store the friend IDs from response
+      if (tempFriendId.length >= 1) {
+        tempFriendId.forEach((friendID) => {
+          getInfo({ query: friendID });
+        });
+      }
     } else {
       alert(response.msg);
     }
@@ -45,8 +44,24 @@ const Mainbar = () => {
       });
       const response = await res.json();
       if (response.status) {
-        setFriends(...friends, { name: response.name, email: response.email });
-        console.log(friends);
+        let friendsArray = [...friends]; //Temporary copy of the Array in friends state
+        // console.log({friendsArray})
+        const responseData = {
+          name: response.name,
+          email: response.email,
+          id: response.id,
+        };
+        // console.log({responseData})
+        friendsArray.push(responseData);
+        // console.log({friendsArray},"the second coming")
+        setFriends(friendsArray);
+        // setFriends(...friends, {
+        //   name: response.name,
+        //   email: response.email,
+        //   id:response.id,
+        // });
+
+        // console.log(friends,"line 56 Mainbar.js");
       } else {
         alert(response.msg);
       }
@@ -81,41 +96,6 @@ const Mainbar = () => {
               className="inline mr-5"
               src="https://img.icons8.com/ios/27/000000/user-male-circle.png"
             />
-            Person A
-          </li>
-          <li className="my-2 py-1 cursor-pointer  hover:text-white active:text-white">
-            <img
-              className="inline mr-5"
-              src="https://img.icons8.com/ios/27/000000/user-male-circle.png"
-            />
-            Person B
-          </li>
-          <li className="my-2 py-1 cursor-pointer  hover:text-white active:text-white">
-            <img
-              className="inline mr-5"
-              src="https://img.icons8.com/ios/27/000000/user-male-circle.png"
-            />
-            Person C
-          </li>
-          <li className="my-2 py-1 cursor-pointer  hover:text-white active:text-white">
-            <img
-              className="inline mr-5"
-              src="https://img.icons8.com/ios/27/000000/user-male-circle.png"
-            />
-            Person A
-          </li>
-          <li className="my-2 py-1 cursor-pointer  hover:text-white active:text-white">
-            <img
-              className="inline mr-5"
-              src="https://img.icons8.com/ios/27/000000/user-male-circle.png"
-            />
-            Person B
-          </li>
-          <li className="my-2 py-1 cursor-pointer  hover:text-white active:text-white">
-            <img
-              className="inline mr-5"
-              src="https://img.icons8.com/ios/27/000000/user-male-circle.png"
-            />
             Person C
           </li>
         </ul>
@@ -123,17 +103,24 @@ const Mainbar = () => {
       <div className="section my-3">
         <h4 className="my-2 font-semibold text-base">Direct Messages</h4>
         <ul className="text-slate-400 text-base">
-          {friends.map((friend) => {
-            return (
-              <li className="my-2 py-1 cursor-pointer  hover:text-white active:text-white">
-                <img
-                  className="inline mr-5"
-                  src="https://img.icons8.com/ios/27/000000/user-male-circle.png"
-                />
-                {friend.name || "temp"}
-              </li>
-            );
-          })}
+          {friends.length >= 1 &&
+            friends.map((friend) => {
+              return (
+                <li
+                  className="my-2 py-1 cursor-pointer  hover:text-white active:text-white"
+                  onClick={() => {
+                    setUserChat(friend.id);
+                  }}
+                  key={friend.id}
+                >
+                  <img
+                    className="inline mr-5"
+                    src="https://img.icons8.com/ios/27/000000/user-male-circle.png"
+                  />
+                  {friend.name || "temp"}
+                </li>
+              );
+            })}
         </ul>
       </div>
     </div>

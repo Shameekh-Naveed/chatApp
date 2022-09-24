@@ -1,9 +1,12 @@
-import React,{useState} from "react";
-
+import React, { useState, useContext } from "react";
+// import  RouterState  from "./Contexts/RouterState";
+import RouterContext from './Contexts/RouterContext'
 
 const Navbar = () => {
-  
-  const [currentMenu, setCurrentMenu] = useState('')
+  const routerState = useContext(RouterContext);
+  // console.log(routerState);
+  const { location, setLocation } = routerState;
+  // const [location, setLocation] = useState("");
   return (
     <nav className="col-span-1 p-1 flex flex-col items-center pt-3">
       {/*  <nav className="border border-solid "> */}
@@ -18,14 +21,14 @@ const Navbar = () => {
         </li>
         <li
           className={`text-center list-none my-5 ${
-            currentMenu == "msgs" ? `border-r-2` : ""
+            location == "msgs" ? `border-r-2` : ""
           }`}
         >
           <a
             href=""
             onClick={(e) => {
               e.preventDefault();
-              setCurrentMenu("msgs");
+              setLocation("msgs");
             }}
           >
             <img
@@ -36,14 +39,14 @@ const Navbar = () => {
         </li>
         <li
           className={`text-center list-none my-5 ${
-            currentMenu == "peeps" ? `border-r-2` : ""
+            location == "peeps" ? `border-r-2` : ""
           }`}
         >
           <a
             href=""
             onClick={(e) => {
               e.preventDefault();
-              setCurrentMenu("peeps");
+              setLocation("peeps");
             }}
           >
             <img
@@ -54,14 +57,14 @@ const Navbar = () => {
         </li>
         <li
           className={`text-center list-none my-5 ${
-            currentMenu == "find" ? `border-r-2` : ""
+            location == "find" ? `border-r-2` : ""
           }`}
         >
           <a
             href=""
             onClick={(e) => {
               e.preventDefault();
-              setCurrentMenu("find");
+              setLocation("find");
             }}
           >
             <img
@@ -69,18 +72,17 @@ const Navbar = () => {
               src="https://img.icons8.com/plasticine/36/000000/search.png"
             />
           </a>
-          
         </li>
         <li
           className={`text-center list-none my-5 ${
-            currentMenu == "setting" ? `border-r-2` : ""
+            location == "setting" ? `border-r-2` : ""
           }`}
         >
-         <a
+          <a
             href=""
             onClick={(e) => {
               e.preventDefault();
-              setCurrentMenu("setting");
+              setLocation("setting");
             }}
           >
             <img
@@ -88,7 +90,6 @@ const Navbar = () => {
               src="https://img.icons8.com/doodle/48/000000/apple-settings.png"
             />
           </a>
-          
         </li>
       </ul>
     </nav>

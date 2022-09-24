@@ -23,6 +23,7 @@ const LoginSignup = (props) => {
     const response = await res.json();
     if (response.status) {
       localStorage.setItem("auth_tokken", response.auth_tokken);
+      localStorage.setItem("userId", response.user_id);
       //   Uplift state
       props.statusChange();
     } else {
